@@ -1,5 +1,8 @@
 from django.shortcuts import render
-# Anusha's test comment 
-# Isha's Test Commit
-# Oh gosh, this took some time. 
-# Create your views here.
+from .models import Item
+
+def items_list(request):
+    context = {
+        'items': Item.objects.all()
+    }
+    return render(request, "items_list.html", context)
