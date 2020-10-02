@@ -1,5 +1,6 @@
 from django.conf import  settings
 from django.db import models
+from django.shortcuts import reverse
 
 label_choices = {
     ('N','New'),
@@ -9,7 +10,7 @@ label_choices = {
 
 category_choices = {
     ('M',''),
-    ('H','Home'),
+    ('H','Home Decor'),
     ('A','Accessories'),
     ('T','Toys')
 }
@@ -20,9 +21,15 @@ class Item(models.Model):
     cost = models.FloatField()
     label = models.CharField(choices=label_choices, max_length=1)
     category = models.CharField(choices=category_choices, max_length=1)
+    slug = models.SlugField()
 
     def __str__(self):
         return self.name
+
+    def get_abs_url(self):
+        return reverse("core:product_details", kwargs={
+            'slug': self.slug
+        } )
 
 #Item in an order
 class order_Item(models.Model):

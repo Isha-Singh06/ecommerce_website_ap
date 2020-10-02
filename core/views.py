@@ -6,12 +6,6 @@ class Home_V(ListView):
     model = Item
     template_name = 'index.html'
 
-def items_list(request):
-    context = {
-        'items': Item.objects.all()
-    }
-    return render(request, "index.html", context)
-
 def shop(request):
     return render(request, "shop.html")
 
@@ -20,6 +14,10 @@ def checkout(request):
 
 def cart(request):
     return render(request, "shop-cart.html")
+
+class product_details_V(DetailView):
+    model = Item
+    template_name = "product-details.html"
 
 def product_details(request):
     return render(request, "product-details.html")

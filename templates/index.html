@@ -179,7 +179,7 @@
         <div class="row property__gallery">
             {% for item in object_list %}
              <!-- Figure out how to get the category in the next line for filtering -->
-            <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.get_category_display}}">
+            <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="{% static 'img/product/product-1.jpg'%}">
                         <div class="{{item.get_label_display}}">New</div>
@@ -190,7 +190,7 @@
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">{{item.name}}</a></h6>
+                        <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
