@@ -1,10 +1,26 @@
 from django.conf import  settings
 from django.db import models
 
+label_choices = {
+    ('N','New'),
+    ('O','Out of Stock'),
+    ('S','Sale')
+}
+
+category_choices = {
+    ('M',''),
+    ('H','Home'),
+    ('A','Accessories'),
+    ('T','Toys')
+}
+
 #The products
 class Item(models.Model):
     name = models.CharField(max_length=50)
     cost = models.FloatField()
+    label = models.CharField(choices=label_choices, max_length=1)
+    category = models.CharField(choices=category_choices, max_length=1)
+
     def __str__(self):
         return self.name
 
