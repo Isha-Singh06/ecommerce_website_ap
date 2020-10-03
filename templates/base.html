@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart_template_tags %}
 
 <!-- index and shop not linked to base.html -->
 
@@ -27,6 +28,8 @@
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
     <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
 </head>
 <body>
    <!-- Page Preloder -->
@@ -64,39 +67,44 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="./"><img width = 50%, src="{% static 'img/logo1.png' %}" alt=""></a>
+                        <a href="/index"><img width = 50%, src="{% static 'img/logo1.png' %}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="/">Home</a></li>
-                            <li><a href="./shop">Shop</a></li>
+                            <li class="active"><a href="/index">Home</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     <li><a href="/shop-cart">Shop Cart</a></li>
                                     <li><a href="/checkout">Checkout</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="./contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
+                        {% if request.user.is_authenticated %}
                         <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
+                            <a href="{%url 'account_logout'%}">Logout</a>
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
                             <li><a href="#"><span class="icon_heart_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
-                            <li><a href="./shop-cart"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
+                            <li><a href="/shop-cart"><span class="icon_bag_alt"></span>
+                                <div class="tip">{{request.user | cart_count }}</div>
                             </a></li>
                         </ul>
+                        {% else %}
+                        <div class="header__right__auth">
+                            <a href="{%url 'account_login'%}">Login</a>
+                            <a href="{%url 'account_signup'%}">Register</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -106,11 +114,25 @@
         </div>
     </header>
     <!-- Header Section End -->
-
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+         {{ message }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+         </button>
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
 
     {% block content  %}
     {% endblock content %}
 
+
+    {% block extra_body %}
+    {% endblock %}
 
 <!-- Footer Section Begin -->
 <footer class="footer">
@@ -203,3 +225,4 @@
 
 </body>
 </html>
+
