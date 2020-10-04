@@ -198,14 +198,29 @@
              <!-- Figure out how to get the category in the next line for filtering -->
             <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
                 <div class="product__item">
+                     {% if request.user.is_authenticated %}
+                    <div class="product__item__pic set-bg" data-setbg="{% static 'img/product/product-1.jpg'%}">
+                        <div class="{{item.label}}">{{item.get_label_display}}</div>
+                        <ul class="product__hover">
+                            <li><a href="{% static 'img/product/product-1.jpg'%}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                            <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% else %}
                     <div class="product__item__pic set-bg" data-setbg="{% static 'img/product/product-1.jpg'%}">
                         <div class="{{item.label}}">{{item.get_label_display}}</div>
                         <ul class="product__hover">
                             <li><a href="{% static 'img/product/product-1.jpg'%}" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            <li><div class="alert alert-danger">
+                              Please login to add to cart or wishlist.
+                            </div></li>
                         </ul>
                     </div>
+                    {% endif %}
                     <div class="product__item__text">
                         <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
                         <div class="rating">
@@ -223,6 +238,7 @@
                             {%endif%}
                         </div>
                     </div>
+
                 </div>
             </div>
             {% endfor %}
