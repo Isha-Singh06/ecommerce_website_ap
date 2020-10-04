@@ -28,6 +28,9 @@ def product_details(request):
 def contact_us(request):
     return render(request, "contact.html")
 
+def social_signup(request):
+    return render(request, "./socialaccount/signup.html")
+
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     orderItem, created = Order_Item.objects.get_or_create(
