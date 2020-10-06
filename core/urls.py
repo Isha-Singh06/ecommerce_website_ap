@@ -1,17 +1,21 @@
 from django.urls import path
-from .views import shop, Home_V, checkout, cart, product_details_V, contact_us, add_to_cart, remove_from_cart, social_signup
+from .views import shop, Home_V, checkout, cart, OrderSummary_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, social_signup
 
 app_name = 'core'
 
 urlpatterns = [
-    path('', Home_V.as_view(), name = 'home'),
+    path('', Home_V.as_view(), name='home'),
     path('index', Home_V.as_view(), name='home'),
     path('shop', shop, name='shop'),
     path('checkout', checkout, name='checkout'),
+    path('order-summary/', OrderSummary_V.as_view(), name='order-summary'),
     path('shop-cart', cart, name='cart'),
-    path('product-details/<slug>/', product_details_V.as_view(), name='product_details'),
+    path('product-details/<slug>/',
+         product_details_V.as_view(), name='product_details'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
+    path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
+         name='remove-single-item-from-cart'),
     path('contact', contact_us, name='contact_us'),
     path('social_signup', social_signup, name='social_signup')
 ]

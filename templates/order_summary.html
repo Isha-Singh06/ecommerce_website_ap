@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+
+<head>
+    <title>{% block head_title %}Order Summary{% endblock %}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+{% block content  %}
+
+<body>
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Order Summary Section-->
+    <div class="container">
+
+        <div class="table-responsive text-nowrap">
+            <h2>Order Summary</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Item Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order_item in object.items.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ order_item.item.name }}</td>
+                        <td>{{ order_item.item.cost }}</td>
+                        <td><a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i
+                                    class="fas fa-minus mr-2"></i></a>{{ order_item.quantity }}<a
+                                href="{% url 'core:add-to-cart' order_item.item.slug %}"><i
+                                    class="fas fa-plus ml-2"></i></a></td>
+                        <td>
+                            {% if order_item.item.discounted %}
+                            ${{ order_item.total_discount_item_price }}
+                            <span class="badge badge-primary">Saving {{ order_item.amount_saved }}</span>
+                            {% else %}
+                            ${{ order_item.total_item_price }}
+                            {% endif %}
+                            <a style="color: red;" href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+                                <i class="fas fa-trash float-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">Your cart is empty</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a href="/" class="btn btn-primary float-right">Continue Shopping</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if object.total_amount %}
+                    <tr>
+                        <td colspan="4"><b>Order Total</b></td>
+                        <td><b>${{ object.total_amount }}</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a href='/checkout' class="btn btn-warning float-right ml-2">Proceed To
+                                Checkout</a>
+                            <a href='/' class="btn btn-primary float-right">Continue Shopping</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</body>
+{% endblock %}

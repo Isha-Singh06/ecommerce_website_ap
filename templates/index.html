@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -99,9 +101,14 @@
                             <li><a href="#"><span class="icon_heart_alt"></span>
                                     <div class="tip">2</div>
                                 </a></li>
-                            <li><a href="/shop-cart"><span class="icon_bag_alt"></span>
+                            <li>
+                                <!-- Commented this in case we need to look at the shop-cart page later -->
+                                <!-- <a href="/shop-cart"> -->
+                                <a href="{% url 'core:order-summary' %}">
+                                    <span class="icon_bag_alt"></span>
                                     <div class="tip"> {{request.user | cart_count }} </div>
-                                </a></li>
+                                </a>
+                            </li>
                         </ul>
                         {% else %}
                         <div class="header__right__auth">

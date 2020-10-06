@@ -1,21 +1,23 @@
-from django.conf import  settings
+from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 
 label_choices = {
-    ('N','New'),
-    ('O','Out of Stock'),
-    ('S','Sale')
+    ('N', 'New'),
+    ('O', 'Out of Stock'),
+    ('S', 'Sale')
 }
 
 category_choices = {
-    ('M',''),
-    ('H','Home Decor'),
-    ('A','Accessories'),
-    ('T','Toys')
+    ('M', ''),
+    ('H', 'Home Decor'),
+    ('A', 'Accessories'),
+    ('T', 'Toys')
 }
 
-#The products
+# The products
+
+
 class Item(models.Model):
     name = models.CharField(max_length=50)
     cost = models.FloatField()
@@ -32,7 +34,7 @@ class Item(models.Model):
     def get_abs_url(self):
         return reverse("core:product_details", kwargs={
             'slug': self.slug
-        } )
+        })
 
     def add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={
@@ -45,17 +47,34 @@ class Item(models.Model):
         })
 
 
-#Item in an order
+# Item in an order
 class Order_Item(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+
     def __str__(self):
         return f"{self.quantity} of {self.item.name}"
 
-#The items present in the cart, order
+    def total_item_price(self):
+        return self.quantity * self.item.cost
+
+    def total_discount_item_price(self):
+        return self.quantity * self.item.discounted
+
+    def amount_saved(self):
+        return self.total_item_price() - self.total_discount_item_price()
+
+    def final_price(self):
+        if self.item.discounted:
+            return self.total_discount_item_price()
+        return self.total_item_price()
+
+# The items present in the cart, order
+
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
@@ -63,5 +82,12 @@ class Order(models.Model):
     initial_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+
     def __str__(self):
         return self.user.username
+
+    def total_amount(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.final_price()
+        return total
