@@ -6,7 +6,7 @@ from django.contrib import messages
 
 class Home_V(ListView):
     model = Item
-    paginate_by = 15
+    paginate_by = 28
     template_name = 'index.html'
 
 def shop(request):
