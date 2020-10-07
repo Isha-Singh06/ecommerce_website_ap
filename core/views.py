@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Home_V(ListView):
     model = Item
-    paginate_by = 28
+    paginate_by = 16
     template_name = 'index.html'
 
 

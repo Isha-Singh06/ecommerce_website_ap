@@ -201,7 +201,10 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8">
+
                     <ul class="filter__controls">
+                        <h5>Filters for products on this page:    </h5>
+                        <br>
                         <li class="active" data-filter="*">All</li>
                         <li data-filter=".H">Home Decor</li>
                         <li data-filter=".T">Toys</li>
@@ -212,7 +215,7 @@
 
             <div class="row property__gallery">
                 {% for item in object_list %}
-                <!-- Figure out how to get the category in the next line for filtering -->
+
                 <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
                     <div class="product__item">
                         {% if request.user.is_authenticated %}
