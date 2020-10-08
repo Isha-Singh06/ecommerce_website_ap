@@ -76,10 +76,15 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="/index">Home</a></li>
+                            <li><a href="/shop">View Products</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
+                                    {% if request.user.is_authenticated %}
                                     <li><a href="/shop-cart">Shop Cart</a></li>
                                     <li><a href="/checkout">Checkout</a></li>
+                                    {% else %}
+                                    <li><a href="#">Please login first</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li><a href="./contact">Contact</a></li>

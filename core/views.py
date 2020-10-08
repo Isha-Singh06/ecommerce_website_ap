@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Home_V(ListView):
     model = Item
-    paginate_by = 16
+    paginate_by = 12
     template_name = 'index.html'
 
 
@@ -27,8 +27,10 @@ class OrderSummary_V(LoginRequiredMixin, View):
             return redirect("/")
 
 
-def shop(request):
-    return render(request, "shop.html")
+class shop_V(ListView):
+    model = Item
+    paginate_by = 27
+    template_name = 'shop.html'
 
 
 def checkout(request):

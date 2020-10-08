@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import shop, Home_V, checkout, cart, OrderSummary_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, social_signup
+from .views import shop_V, Home_V, checkout, cart, OrderSummary_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, social_signup
 
 app_name = 'core'
 
 urlpatterns = [
     path('', Home_V.as_view(), name='home'),
     path('index', Home_V.as_view(), name='home'),
-    path('shop', shop, name='shop'),
+    path('shop', shop_V.as_view(), name='shop'),
     path('checkout', checkout, name='checkout'),
     path('order-summary/', OrderSummary_V.as_view(), name='order-summary'),
     path('shop-cart', cart, name='cart'),
