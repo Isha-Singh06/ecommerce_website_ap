@@ -80,14 +80,14 @@
                             <li><a href="#">Pages</a>
                                 <ul class="dropdown">
                                     {% if request.user.is_authenticated %}
-                                    <li><a href="/shop-cart">Shop Cart</a></li>
+                                    <li><a href="/order-summary">Shop Cart</a></li>
                                     <li><a href="/checkout">Checkout</a></li>
                                     {% else %}
                                     <li><a href="#">Please login first</a></li>
                                     {% endif %}
                                 </ul>
                             </li>
-                            <li><a href="./contact">Contact</a></li>
+                            <li><a href="/contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>

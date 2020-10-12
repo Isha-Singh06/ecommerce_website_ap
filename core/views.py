@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.db.models import Q
 
 class Home_V(ListView):
     model = Item
@@ -57,6 +57,29 @@ def contact_us(request):
 def social_signup(request):
     return render(request, "./socialaccount/signup.html")
 
+class search_V(ListView):
+    model = Item
+    paginate_by = 27
+    template_name = 'shop.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Item.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query) | Q(keywords__icontains=query)
+        )
+        return object_list
+
+class filter_V(ListView):
+    model = Item
+    paginate_by = 27
+    template_name = 'shop.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Item.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query) | Q(keywords__icontains=query)
+        )
+        return object_list
 
 @login_required
 def add_to_cart(request, slug):

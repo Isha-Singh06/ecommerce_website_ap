@@ -23,6 +23,7 @@ class Item(models.Model):
     cost = models.FloatField()
     discounted = models.FloatField(blank=True, null=True)
     description = models.TextField()
+    keywords = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to="products", blank=True)
     label = models.CharField(choices=label_choices, max_length=1)
     category = models.CharField(choices=category_choices, max_length=1)
