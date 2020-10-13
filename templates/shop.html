@@ -2,7 +2,6 @@
 {% load cart_template_tags %}
 
 
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -28,6 +27,7 @@
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 
 <body>
@@ -108,11 +108,35 @@
                                 </a>
                             </li>
                         </ul>
+                        <form  action="{% url 'core:search' %}" method="GET" >
+                            <span class="icon_search"></span>
+                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <datalist id="products">
+                                 <option>Toys</option>
+                                <option>Home</option>
+                                <option>Accessories</option>
+                                {% for product in object_list %}
+                                    <option value="{{product.name}}">
+                                {% endfor %}
+                            </datalist>
+                        </form>
                         {% else %}
                         <div class="header__right__auth">
                             <a href="{%url 'account_login'%}">Login</a>
                             <a href="{%url 'account_signup'%}">Register</a>
                         </div>
+                        <form  action="{% url 'core:search' %}" method="GET" >
+                            <span class="icon_search"></span>
+                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <datalist id="products">
+                                 <option>Toys</option>
+                                <option>Home</option>
+                                <option>Accessories</option>
+                                {% for product in object_list %}
+                                    <option value="{{product.name}}">
+                                {% endfor %}
+                            </datalist>
+                        </form>
                         {% endif %}
 
                     </div>
@@ -127,11 +151,6 @@
         </div>
     </header>
     <!-- Header Section End -->
-<br>
-<center><form action="{% url 'core:search' %}" method="get">
-              <span class="icon_search"></span> <input size="18"  name="q" type="text" placeholder="What are you looking for?">
-        </form>
-</center>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -215,6 +234,7 @@
 <!-- Filters section ends here, products shown now -->
 
                 <div class="col-lg-9 col-md-9">
+                    {% if object_list%}
                     <div class="row">
                         {% for item in object_list %}
                         <div class="col-lg-4 col-md-6 product__item">
@@ -264,13 +284,21 @@
                         </div>
                         {% endfor %}
                     </div>
+                    {% else %}
+                    <div class="row">
+                        Sorry, no products available
+                    </div>
+                    {% endif %}
                 </div>
 
 
             </div>
         </div>
     </section>
-    <!-- Shop Section End -->
+
+
+<!-- Shop Section End -->
+
 
 <!-- Pagination -->
     {% if is_paginated %}
@@ -339,17 +367,6 @@
         </div>
     </footer>
     <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
 
     <!-- Js Plugins -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>

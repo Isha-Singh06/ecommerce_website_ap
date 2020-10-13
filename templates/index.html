@@ -109,16 +109,34 @@
                                 </a>
                             </li>
                         </ul>
-                        <form action="{% url 'core:search' %}" method="get">
-                            <span class="icon_search"></span> <input size="18" name="q" type="text" placeholder="What are you looking for?">
+                        <form  action="{% url 'core:search' %}" method="GET" >
+                            <span class="icon_search"></span>
+                            <input id="q" list="products" size="22" name="q" type="text" placeholder="What are you looking for?">
+                            <datalist id="products">
+                                 <option>Toys</option>
+                                <option>Home</option>
+                                <option>Accessories</option>
+                                {% for product in object_list %}
+                                    <option value="{{product.name}}">
+                                {% endfor %}
+                            </datalist>
                         </form>
                         {% else %}
                         <div class="header__right__auth">
                             <a href="{%url 'account_login'%}">Login</a>
                             <a href="{%url 'account_signup'%}">Register</a>
                         </div>
-                        <form action="{% url 'core:search' %}" method="get">
-                            <span class="icon_search"></span> <input size="18" name="q" type="text" placeholder="What are you looking for?">
+                        <form  action="{% url 'core:search' %}" method="GET" >
+                            <span class="icon_search"></span>
+                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <datalist id="products">
+                                 <option>Toys</option>
+                                <option>Home</option>
+                                <option>Accessories</option>
+                                {% for product in object_list %}
+                                    <option value="{{product.name}}">
+                                {% endfor %}
+                            </datalist>
                         </form>
                         {% endif %}
                     </div>
@@ -207,7 +225,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="section-title">
-                        <h4>All Products</h4>
+                        <h4>Products</h4>
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8">
@@ -223,7 +241,6 @@
 
             <div class="row property__gallery">
                 {% for item in object_list %}
-
                 <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
                     <div class="product__item">
                         {% if request.user.is_authenticated %}
@@ -473,17 +490,6 @@
         </div>
     </footer>
     <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
 
     <!-- Js Plugins -->
     <script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>

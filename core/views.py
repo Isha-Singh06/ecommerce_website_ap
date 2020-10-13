@@ -8,12 +8,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
+# Home page
 class Home_V(ListView):
     model = Item
     paginate_by = 12
     template_name = 'index.html'
 
-
+# Shopping cart
 class OrderSummary_V(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -26,7 +27,7 @@ class OrderSummary_V(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
-
+# Page to view all products
 class shop_V(ListView):
     model = Item
     paginate_by = 27
@@ -40,35 +41,38 @@ def checkout(request):
 def cart(request):
     return render(request, "shop-cart.html")
 
-
+# Page opened by clicking on an item, details displayed
 class product_details_V(DetailView):
     model = Item
     template_name = "product-details.html"
 
-
-def product_details(request):
-    return render(request, "product-details.html")
-
-
+# Contact us page
 def contact_us(request):
     return render(request, "contact.html")
 
+# Search for products (Autocomplete implementation ✔ )
+def search(request):
+    if request.method == 'GET':
+        query= request.GET.get('q')
 
-def social_signup(request):
-    return render(request, "./socialaccount/signup.html")
 
-class search_V(ListView):
-    model = Item
-    paginate_by = 27
-    template_name = 'shop.html'
+        if query is not None:
+            lookups= Q(name__icontains=query) | Q(keywords__icontains=query)
 
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        object_list = Item.objects.filter(
-            Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query) | Q(keywords__icontains=query)
-        )
-        return object_list
+            results= Item.objects.filter(lookups).distinct()
 
+            context={'results': results,
+                     'allProds' : Item.objects.all()}
+
+            return render(request, 'search.html', context)
+
+        else:
+            return render(request, 'search.html')
+
+    else:
+        return render(request, 'search.html')
+
+# Filters
 class filter_V(ListView):
     model = Item
     paginate_by = 27
