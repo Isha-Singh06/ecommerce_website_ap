@@ -50,6 +50,10 @@ class product_details_V(DetailView):
 def contact_us(request):
     return render(request, "contact.html")
 
+# User's 'My Account' page
+def my_account(request):
+    return render(request, "my_account.html")
+
 # Search for products (Autocomplete implementation ✔ )
 def search(request):
     if request.method == 'GET':
