@@ -15,7 +15,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="/index"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">{{object.get_category_display}} </a>
+                        <a href="/filter/?q={{object.get_category_display}}">{{object.get_category_display}} </a>
                         <span>{{object.name}}</span>
                     </div>
                 </div>
@@ -37,12 +37,11 @@
                     <div class="product__details__text">
                         <h3>{{object.name}} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
                         <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
+                            {{ object.average_Rating|floatformat:2 }}
+                            {%  for i in object.get_avg_length %}
+                             <i class="fa fa-star"></i>
+                            {% endfor %}
+                            <span>( {{ object.reviews.all.count}} reviews )</span>
                         </div>
                         <div class="product__details__price">
                             {% if object.discounted %}
@@ -59,7 +58,6 @@
 
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__details__widget">
@@ -79,10 +77,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Reviews ({{ object.reviews.all.count}})</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -91,13 +86,57 @@
                                 <p>{{ object.description }}</p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <h6>Specification</h6>
-                                <p>Some specifications</p>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <h6>Reviews ( 2 )</h6>
-                                <p>Reviews</p>
+                                <h6>Reviews ({{ object.reviews.all.count}})</h6>
+                                {% for review in object.reviews.all %}
+                                    <p>
+                                        {{review.user.username}},
+                                        {{review.date_added|date:"Y-m-d" }},
+                                        Stars: {{review.stars }}
+                                    </p>
+                                    {{review.content }}
+                                <hr>
+                                {% empty %}
+                                No reviews available yet.
+                                <br>
+                                {% endfor %}
 
+                                <hr>
+                                {% if request.user.is_authenticated %}
+                                Would you like to add a review?
+                                    <form method="post" action=".">
+
+                                        {% csrf_token %}
+
+                                        <div class="field">
+                                            <label>Stars</label>
+                                            <div class="control">
+                                                <div class="select">
+                                                    <select name="stars">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5" selected>5</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label>Review</label>
+                                            <div class="control">
+                                                <textarea class="textarea" name="content"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="control">
+                                                <button>Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                <p> Please sign in to review this product </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

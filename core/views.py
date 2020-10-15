@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
-from .models import Item, Order_Item, Order
+from .models import Item, Order_Item, Order, Reviews
 from django.utils import timezone
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -27,7 +27,7 @@ class OrderSummary_V(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
-#test.html
+
 class checkout(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -51,9 +51,20 @@ def cart(request):
     return render(request, "shop-cart.html")
 
 # Page opened by clicking on an item, details displayed
-class product_details_V(DetailView):
-    model = Item
-    template_name = "product-details.html"
+def product_details_V(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    content = {
+        'object': item
+    }
+
+    if request.method == 'POST' and request.user.is_authenticated:
+        stars = request.POST.get('stars', 5)
+        content = request.POST.get('content', '')
+        review = Reviews.objects.create(product=item,user= request.user, stars= stars, content= content )
+        return redirect("core:product_details", slug=slug)
+
+    return render(request, 'product-details.html', content)
+
 
 # Contact us page
 def contact_us(request):

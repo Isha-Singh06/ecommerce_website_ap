@@ -47,6 +47,22 @@ class Item(models.Model):
             'slug': self.slug
         })
 
+    def average_Rating(self):
+        if self.reviews.count() > 0:
+            total = sum(int(review['stars']) for review in self.reviews.values())
+            avg = total/self.reviews.count()
+        else:
+            avg = 0
+        return avg
+
+    # To be able to display the correct number of stars
+    def get_avg_length(self):
+        A = []
+        for i in range(0,round(self.average_Rating())):
+            A.append(1)
+            i += 1
+        return A
+
 
 # Item in an order
 class Order_Item(models.Model):
@@ -92,3 +108,12 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.final_price()
         return total
+
+class Reviews(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="reviews", on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, related_name="reviews", on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+    stars = models.IntegerField()
+    content = models.TextField(blank=True, null= True)
+
+
