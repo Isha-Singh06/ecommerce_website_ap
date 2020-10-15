@@ -27,15 +27,24 @@ class OrderSummary_V(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
+#test.html
+class checkout(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': order
+            }
+            return render(self.request, "checkout.html", context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order")
+            return redirect("/")
+
 # Page to view all products
 class shop_V(ListView):
     model = Item
     paginate_by = 27
     template_name = 'shop.html'
-
-
-def checkout(request):
-    return render(request, "checkout.html")
 
 
 def cart(request):

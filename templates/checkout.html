@@ -35,17 +35,10 @@
                         <h5>Billing details</h5>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>First Name <span>*</span></p>
-                                    <input type="text">
-                                </div>
+                                
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Last Name <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
+                                                            </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Country <span>*</span></p>
@@ -76,10 +69,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Email <span>*</span></p>
-                                    <input type="text">
-                                </div>
+                                
                             </div>
 
                             <!-- Commenting this out because its making the dummy page look cluttered-->
@@ -119,31 +109,63 @@
                         <div class="checkout__order">
                             <h5>Your order</h5>
                             <div class="checkout__order__product">
-                                <ul>
-                                    <li>
-                                        <span class="top__text">Product</span>
-                                        <span class="top__text__right">Total</span>
-                                    </li>
-                                    <li>01. Chain buck bag <span>$ 300.0</span></li>
-                                    <li>02. Zip-pockets pebbled<br /> tote briefcase <span>$ 170.0</span></li>
-                                    <li>03. Black jean <span>$ 170.0</span></li>
-                                    <li>04. Cotton shirt <span>$ 110.0</span></li>
-                                </ul>
+                                
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Item Title</th>
+                            
+                            
+                                        <th scope="col">Total Item Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order_item in object.items.all %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ order_item.item.name }}</td>
+                            
+                                        <td>
+                                            {% if order_item.item.discounted %}
+                                            ${{ order_item.total_discount_item_price }}
+                            
+                                            {% else %}
+                                            ${{ order_item.total_item_price }}
+                                            {% endif %}
+                                        </td>
+                            
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5">Your cart is empty</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <a href="/shop" class="btn btn-primary float-right">Continue Shopping</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+
                             </div>
                             <div class="checkout__order__total">
                                 <ul>
-                                    <li>Subtotal <span>$ 750.0</span></li>
-                                    <li>Total <span>$ 750.0</span></li>
+                                    <li><b>Order Subtotal</b><span>
+                                        {% if object.total_amount %}
+                                        
+                                            
+                                            <b>${{ object.total_amount }}</b>
+                                        {% endif %}
+                                        
+                                    </span></li>
+                            
                                 </ul>
                             </div>
                             <div class="checkout__order__widget">
-                                <label for="o-acc">
-                                    Create an acount?
-                                    <input type="checkbox" id="o-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <p>Create an account by entering the information below. If you are a returing customer
-                                    login at the top of the page.</p>
+                            
                                 <label for="check-payment">
                                     Cheque payment
                                     <input type="checkbox" id="check-payment">
@@ -154,6 +176,15 @@
                                     <input type="checkbox" id="paypal">
                                     <span class="checkmark"></span>
                                 </label>
+                                <label for="cash on delivery">
+                                    Cash On Delivery 
+                                    <input type="checkbox" id="cash on delivery">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                                
+                                
+                                
                             </div>
                             <button type="submit" class="site-btn">Place oder</button>
                         </div>
