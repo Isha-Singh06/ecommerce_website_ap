@@ -42,6 +42,16 @@ class Item(models.Model):
             'slug': self.slug
         })
 
+    def add_to_wishlist_url(self):
+        return reverse("core:add-to-wishlist", kwargs={
+            'slug': self.slug
+        })
+
+    def remove_from_wishlist_url(self):
+        return reverse("core:remove-from-wishlist", kwargs={
+            'slug': self.slug
+        })
+
     def remove_from_cart_url(self):
         return reverse("core:remove-from-cart", kwargs={
             'slug': self.slug
@@ -49,7 +59,8 @@ class Item(models.Model):
 
     def average_Rating(self):
         if self.reviews.count() > 0:
-            total = sum(int(review['stars']) for review in self.reviews.values())
+            total = sum(int(review['stars'])
+                        for review in self.reviews.values())
             avg = total/self.reviews.count()
         else:
             avg = 0
@@ -58,7 +69,7 @@ class Item(models.Model):
     # To be able to display the correct number of stars
     def get_avg_length(self):
         A = []
-        for i in range(0,round(self.average_Rating())):
+        for i in range(0, round(self.average_Rating())):
             A.append(1)
             i += 1
         return A
@@ -109,11 +120,53 @@ class Order(models.Model):
             total += order_item.final_price()
         return total
 
+
 class Reviews(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="reviews", on_delete=models.CASCADE)
-    product = models.ForeignKey(Item, related_name="reviews", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="reviews", on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Item, related_name="reviews", on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     stars = models.IntegerField()
-    content = models.TextField(blank=True, null= True)
+    content = models.TextField(blank=True, null=True)
+
+# Item in the wishlist
 
 
+class Wishlist_Item(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    wishlist_present = models.BooleanField(default=False)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    # def __str__(self):
+    #     return f"{self.quantity} of {self.item.name}"
+
+    # def total_item_price(self):
+    # return self.quantity * self.item.cost
+
+    def __str__(self):
+        return f"{self.item.name}"
+
+    def item_price(self):
+        return self.item.cost
+
+
+# The items present in the wishlist
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    items = models.ManyToManyField(Wishlist_Item)
+    initial_date = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateTimeField()
+    wishlist_present = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+    def total_amount(self):
+        total = 0
+        for wishlist_item in self.items.all():
+            total += wishlist_item.item_price()
+        return total

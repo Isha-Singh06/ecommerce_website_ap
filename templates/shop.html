@@ -16,7 +16,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" type="text/css">
@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="/"><img width = 50%, src="{% static 'img/logo1.png' %}" alt=""></a>
+                        <a href="/"><img width=50%, src="{% static 'img/logo1.png' %}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
@@ -73,8 +73,8 @@
                             <a href="{%url 'account_logout'%}">Logout</a>
                         </div>
                         <ul class="header__right__widget">
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
+                            <li><a href="{% url 'core:wishlist' %}"><span class="icon_heart_alt"></span>
+                                    <div class="tip">{{request.user | wishlist_count }}</div>
                                 </a></li>
                             <li>
                                 <!-- Commented this in case we need to look at the shop-cart page later -->
@@ -85,16 +85,17 @@
                                 </a>
                             </li>
                         </ul>
-                        <form  action="{% url 'core:search' %}" method="GET" >
+                        <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
-                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <input id="q" list="products" size="22" name="q" type="text"
+                                placeholder="What are you looking for?">
                             <datalist id="products">
-                                 <option>Toys</option>
+                                <option>Toys</option>
                                 <option>Home</option>
                                 <option>Accessories</option>
                                 {% for product in object_list %}
-                                    <option value="{{product.name}}">
-                                {% endfor %}
+                                <option value="{{product.name}}">
+                                    {% endfor %}
                             </datalist>
                         </form>
                         {% else %}
@@ -102,16 +103,17 @@
                             <a href="{%url 'account_login'%}">Login</a>
                             <a href="{%url 'account_signup'%}">Register</a>
                         </div>
-                        <form  action="{% url 'core:search' %}" method="GET" >
+                        <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
-                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <input id="q" list="products" size="22" name="q" type="text"
+                                placeholder="What are you looking for?">
                             <datalist id="products">
-                                 <option>Toys</option>
+                                <option>Toys</option>
                                 <option>Home</option>
                                 <option>Accessories</option>
                                 {% for product in object_list %}
-                                    <option value="{{product.name}}">
-                                {% endfor %}
+                                <option value="{{product.name}}">
+                                    {% endfor %}
                             </datalist>
                         </form>
                         {% endif %}
@@ -153,7 +155,9 @@
                     <div class="shop__sidebar">
                         <div class="sidebar__categories">
                             <div class="section-title">
-                                <a href="/shop"><h4>All Products</h4></a>
+                                <a href="/shop">
+                                    <h4>All Products</h4>
+                                </a>
                             </div>
                             <div class="section-title">
                                 <h4>Categories</h4>
@@ -174,7 +178,7 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-heading">
-                                            <a  data-toggle="collapse" data-target="#collapseTwo">Home Decor</a>
+                                            <a data-toggle="collapse" data-target="#collapseTwo">Home Decor</a>
                                         </div>
                                         <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                             <div class="card-body">
@@ -208,7 +212,7 @@
                     </div>
                 </div>
 
-<!-- Filters section ends here, products shown now -->
+                <!-- Filters section ends here, products shown now -->
 
                 <div class="col-lg-9 col-md-9">
                     {% if object_list%}
@@ -218,45 +222,46 @@
                             {% if request.user.is_authenticated %}
                             <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
                                 <div class="{{item.label}}">{{item.get_label_display}}</div>
-                                    <ul class="product__hover">
-                                        <li><a href="/media/{{ item.image }}" class="image-popup"><span
-                                            class="arrow_expand"></span></a></li>
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a></li>
+                                <ul class="product__hover">
+                                    <li><a href="/media/{{ item.image }}" class="image-popup"><span
+                                                class="arrow_expand"></span></a></li>
+                                    <li><a href="{{ item.add_to_wishlist_url}}"><span class="icon_heart_alt"></span></a>
+                                    </li>
+                                    <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a></li>
                                 </ul>
                             </div>
                             {% else %}
                             <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                            <div class="{{item.label}}">{{item.get_label_display}}</div>
-                            <ul class="product__hover">
-                                <li><a href="{% static 'img/product/product-1.jpg'%}" class="image-popup"><span
-                                            class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                <li>
-                                    <div class="alert alert-danger">
-                                        Please login to add to cart or wishlist.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                        <div class="product__item__text">
-                            <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
-                            <div class="rating">
+                                <div class="{{item.label}}">{{item.get_label_display}}</div>
+                                <ul class="product__hover">
+                                    <li><a href="{% static 'img/product/product-1.jpg'%}" class="image-popup"><span
+                                                class="arrow_expand"></span></a></li>
+                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                    <li>
+                                        <div class="alert alert-danger">
+                                            Please login to add to cart or wishlist.
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                            <div class="product__item__text">
+                                <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
                                 <div class="rating">
-                                {%  for i in item.get_avg_length %}
-                                    <i class="fa fa-star"></i>
-                                {% endfor %}
-                            </div>
-                            </div>
-                            <div class="product__price">$
-                                {% if item.discounted %}
-                                {{item.discounted}}
-                                {%else%}
-                                {{item.cost}}
-                                {%endif%}
-                            </div>
+                                    <div class="rating">
+                                        {%  for i in item.get_avg_length %}
+                                        <i class="fa fa-star"></i>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="product__price">$
+                                    {% if item.discounted %}
+                                    {{item.discounted}}
+                                    {%else%}
+                                    {{item.cost}}
+                                    {%endif%}
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -274,10 +279,10 @@
     </section>
 
 
-<!-- Shop Section End -->
+    <!-- Shop Section End -->
 
 
-<!-- Pagination -->
+    <!-- Pagination -->
     {% if is_paginated %}
     <div class="col-lg-12 text-center">
         <div class="pagination__option">
@@ -300,7 +305,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-7">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="./index"><img width = 50%, src="{% static 'img/logo1.png' %}" alt=""></a>
+                            <a href="./index"><img width=50%, src="{% static 'img/logo1.png' %}" alt=""></a>
                         </div>
                         <p>Hope you had a nice experience.</p>
                         <div class="footer__payment">
@@ -326,7 +331,10 @@
                 <div class="col-lg-12">
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     <div class="footer__copyright__text">
-                        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+                        <p>Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                            template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a></p>
                     </div>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </div>

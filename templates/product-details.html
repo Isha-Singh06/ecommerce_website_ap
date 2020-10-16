@@ -39,7 +39,7 @@
                         <div class="rating">
                             {{ object.average_Rating|floatformat:2 }}
                             {%  for i in object.get_avg_length %}
-                             <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                             {% endfor %}
                             <span>( {{ object.reviews.all.count}} reviews )</span>
                         </div>
@@ -57,7 +57,12 @@
                                     class="icon_bag_alt"></span> Remove from cart</a>
 
                             <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <a href="{{ object.add_to_wishlist_url}}" class="cart-btn"><span
+                                        class="icon_heart_alt"></span>
+                                    Add to wishlist</a>
+                                <a href="{{ object.remove_from_wishlist_url}}" class="cart-btn"><span
+                                        class="icon_heart_alt"></span> Remove from wishlist</a>
+                                <!-- <li><a href="#"><span class="icon_heart_alt"></span></a></li> -->
                             </ul>
                         </div>
                         <div class="product__details__widget">
@@ -77,7 +82,8 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Reviews ({{ object.reviews.all.count}})</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Reviews
+                                    ({{ object.reviews.all.count}})</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -88,12 +94,12 @@
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Reviews ({{ object.reviews.all.count}})</h6>
                                 {% for review in object.reviews.all %}
-                                    <p>
-                                        {{review.user.username}},
-                                        {{review.date_added|date:"Y-m-d" }},
-                                        Stars: {{review.stars }}
-                                    </p>
-                                    {{review.content }}
+                                <p>
+                                    {{review.user.username}},
+                                    {{review.date_added|date:"Y-m-d" }},
+                                    Stars: {{review.stars }}
+                                </p>
+                                {{review.content }}
                                 <hr>
                                 {% empty %}
                                 No reviews available yet.
@@ -103,37 +109,37 @@
                                 <hr>
                                 {% if request.user.is_authenticated %}
                                 Would you like to add a review?
-                                    <form method="post" action=".">
+                                <form method="post" action=".">
 
-                                        {% csrf_token %}
+                                    {% csrf_token %}
 
-                                        <div class="field">
-                                            <label>Stars</label>
-                                            <div class="control">
-                                                <div class="select">
-                                                    <select name="stars">
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5" selected>5</option>
-                                                    </select>
-                                                </div>
+                                    <div class="field">
+                                        <label>Stars</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select name="stars">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5" selected>5</option>
+                                                </select>
+                                            </div>
 
-                                            </div>
                                         </div>
-                                        <div class="field">
-                                            <label>Review</label>
-                                            <div class="control">
-                                                <textarea class="textarea" name="content"></textarea>
-                                            </div>
+                                    </div>
+                                    <div class="field">
+                                        <label>Review</label>
+                                        <div class="control">
+                                            <textarea class="textarea" name="content"></textarea>
                                         </div>
-                                        <div class="field">
-                                            <div class="control">
-                                                <button>Submit</button>
-                                            </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <button>Submit</button>
                                         </div>
-                                    </form>
+                                    </div>
+                                </form>
                                 {% else %}
                                 <p> Please sign in to review this product </p>
                                 {% endif %}

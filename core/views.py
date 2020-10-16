@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
-from .models import Item, Order_Item, Order, Reviews
+from .models import Item, Order_Item, Order, Reviews, Wishlist, Wishlist_Item
 from django.utils import timezone
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,12 +9,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 # Home page
+
+
 class Home_V(ListView):
     model = Item
     paginate_by = 12
     template_name = 'index.html'
 
 # Shopping cart
+
+
 class OrderSummary_V(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -25,6 +29,20 @@ class OrderSummary_V(LoginRequiredMixin, View):
             return render(self.request, "order_summary.html", context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
+            return redirect("/")
+
+
+class Wishlist_V(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            wishlist = Wishlist.objects.get(
+                user=self.request.user, wishlist_present=False)
+            context = {
+                'object': wishlist
+            }
+            return render(self.request, "wishlist.html", context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active wishlist")
             return redirect("/")
 
 
@@ -41,6 +59,8 @@ class checkout(LoginRequiredMixin, View):
             return redirect("/")
 
 # Page to view all products
+
+
 class shop_V(ListView):
     model = Item
     paginate_by = 27
@@ -51,6 +71,8 @@ def cart(request):
     return render(request, "shop-cart.html")
 
 # Page opened by clicking on an item, details displayed
+
+
 def product_details_V(request, slug):
     item = get_object_or_404(Item, slug=slug)
     content = {
@@ -60,7 +82,8 @@ def product_details_V(request, slug):
     if request.method == 'POST' and request.user.is_authenticated:
         stars = request.POST.get('stars', 5)
         content = request.POST.get('content', '')
-        review = Reviews.objects.create(product=item,user= request.user, stars= stars, content= content )
+        review = Reviews.objects.create(
+            product=item, user=request.user, stars=stars, content=content)
         return redirect("core:product_details", slug=slug)
 
     return render(request, 'product-details.html', content)
@@ -71,22 +94,25 @@ def contact_us(request):
     return render(request, "contact.html")
 
 # User's 'My Account' page
+
+
 def my_account(request):
     return render(request, "my_account.html")
 
 # Search for products (Autocomplete implementation ✔ )
+
+
 def search(request):
     if request.method == 'GET':
-        query= request.GET.get('q')
-
+        query = request.GET.get('q')
 
         if query is not None:
-            lookups= Q(name__icontains=query) | Q(keywords__icontains=query)
+            lookups = Q(name__icontains=query) | Q(keywords__icontains=query)
 
-            results= Item.objects.filter(lookups).distinct()
+            results = Item.objects.filter(lookups).distinct()
 
-            context={'results': results,
-                     'allProds' : Item.objects.all()}
+            context = {'results': results,
+                       'allProds': Item.objects.all()}
 
             return render(request, 'search.html', context)
 
@@ -97,6 +123,8 @@ def search(request):
         return render(request, 'search.html')
 
 # Filters
+
+
 class filter_V(ListView):
     model = Item
     paginate_by = 27
@@ -105,9 +133,11 @@ class filter_V(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Item.objects.filter(
-            Q(name__icontains=query) | Q(description__icontains=query) | Q(category__icontains=query) | Q(keywords__icontains=query)
+            Q(name__icontains=query) | Q(description__icontains=query) | Q(
+                category__icontains=query) | Q(keywords__icontains=query)
         )
         return object_list
+
 
 @login_required
 def add_to_cart(request, slug):
@@ -198,3 +228,64 @@ def remove_single_item_from_cart(request, slug):
         # Need to say that there is no order yet
         messages.info(request, "No items in your cart yet")
         return redirect("core:product_details", slug=slug)
+
+
+@login_required
+def add_to_wishlist(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    wishlistItem, created = Wishlist_Item.objects.get_or_create(
+        item=item,
+        user=request.user,
+        wishlist_present=False
+    )
+    wishlist_q = Wishlist.objects.filter(
+        user=request.user, wishlist_present=False)
+    # To check whether a wishlist exists already
+    if wishlist_q.exists():
+        wishlist = wishlist_q[0]
+        # To check if the item already exists in the wishlist
+        if wishlist.items.filter(item__slug=item.slug).exists():
+            messages.info(
+                request, "The item already exists in your wishlist")
+            return redirect("core:wishlist")
+
+        else:
+            messages.info(request, "This item has been added to your wishlist")
+            wishlist.items.add(wishlistItem)
+            return redirect("core:wishlist")
+    else:
+        order_date = timezone.now()
+        wishlist = Wishlist.objects.create(
+            user=request.user, order_date=order_date)
+        wishlist.items.add(wishlistItem)
+        messages.info(request, "This item has been added to your wishlist")
+        return redirect("core:wishlist")
+
+
+@login_required
+def remove_from_wishlist(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    wishlist_q = Wishlist.objects.filter(
+        user=request.user, wishlist_present=False)
+    # To check whether a wishlist exists already
+    if wishlist_q.exists():
+        wishlist = wishlist_q[0]
+        # To check if the item already exists in the wishlist
+        if wishlist.items.filter(item__slug=item.slug).exists():
+            wishlistItem = Wishlist_Item.objects.filter(
+                item=item,
+                user=request.user,
+                wishlist_present=False
+            )[0]
+            wishlist.items.remove(wishlistItem)
+            messages.info(
+                request, "This item has been removed from your wishlist")
+            return redirect("core:wishlist")
+        else:
+            # Need to say that the item isnt in the order
+            messages.info(request, "This item does not exist in your wishlist")
+            return redirect("core:wishlist", slug=slug)
+    else:
+        # Need to say that there is no order yet
+        messages.info(request, "No items in your wishlist yet")
+        return redirect("core:wishlist", slug=slug)

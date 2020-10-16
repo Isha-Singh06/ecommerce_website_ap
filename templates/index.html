@@ -74,8 +74,8 @@
                             <a href="{%url 'account_logout'%}">Logout</a>
                         </div>
                         <ul class="header__right__widget">
-                            <li><a href="#"><span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
+                            <li><a href="{% url 'core:wishlist' %}"><span class="icon_heart_alt"></span>
+                                    <div class="tip"> {{request.user | wishlist_count }} </div>
                                 </a></li>
                             <li>
                                 <!-- Commented this in case we need to look at the shop-cart page later -->
@@ -86,16 +86,17 @@
                                 </a>
                             </li>
                         </ul>
-                        <form  action="{% url 'core:search' %}" method="GET" >
+                        <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
-                            <input id="q" list="products" size="22" name="q" type="text" placeholder="What are you looking for?">
+                            <input id="q" list="products" size="22" name="q" type="text"
+                                placeholder="What are you looking for?">
                             <datalist id="products">
-                                 <option>Toys</option>
+                                <option>Toys</option>
                                 <option>Home</option>
                                 <option>Accessories</option>
                                 {% for product in object_list %}
-                                    <option value="{{product.name}}">
-                                {% endfor %}
+                                <option value="{{product.name}}">
+                                    {% endfor %}
                             </datalist>
                         </form>
                         {% else %}
@@ -103,16 +104,17 @@
                             <a href="{%url 'account_login'%}">Login</a>
                             <a href="{%url 'account_signup'%}">Register</a>
                         </div>
-                        <form  action="{% url 'core:search' %}" method="GET" >
+                        <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
-                            <input id="q" list="products" size="22" name="q" type="text"  placeholder="What are you looking for?">
+                            <input id="q" list="products" size="22" name="q" type="text"
+                                placeholder="What are you looking for?">
                             <datalist id="products">
-                                 <option>Toys</option>
+                                <option>Toys</option>
                                 <option>Home</option>
                                 <option>Accessories</option>
                                 {% for product in object_list %}
-                                    <option value="{{product.name}}">
-                                {% endfor %}
+                                <option value="{{product.name}}">
+                                    {% endfor %}
                             </datalist>
                         </form>
                         {% endif %}
@@ -224,7 +226,8 @@
                             <ul class="product__hover">
                                 <li><a href="/media/{{ item.image }}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="{{ item.add_to_wishlist_url}}"><span class="icon_heart_alt"></span></a>
+                                </li>
                                 <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a>
                                 </li>
                             </ul>
@@ -249,7 +252,7 @@
                             <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
                             <div class="rating">
                                 {%  for i in item.get_avg_length %}
-                                    <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
                                 {% endfor %}
                             </div>
                             <div class="product__price">$

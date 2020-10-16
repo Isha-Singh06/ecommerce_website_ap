@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
 
 ]
 
@@ -128,14 +128,13 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-
-ACCOUNT_EMAIL_REQUIRED=True
-ACCOUNT_USERNAME_REQURIED=True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/index'
 
-#Crispy Forms
+# Crispy Forms
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+
+<head>
+    <title>{% block head_title %}Wishlist{% endblock %}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+{% block content  %}
+
+<body>
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index"><i class="fa fa-home"></i> Home</a>
+                        <span>Wishlist</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Order Summary Section-->
+    <div class="container">
+
+        <div class="table-responsive text-nowrap">
+            <h2>Wishlist</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Ratings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wishlist_item in object.items.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><a href="{{wishlist_item.item.get_abs_url}}">{{ wishlist_item.item.name }}</a></td>
+                        <td>{{ wishlist_item.item.cost }}</td>
+                        <td>{{ wishlist_item.item.average_Rating }}</td>
+                        <td><a style="color: red;" href="{% url 'core:remove-from-wishlist' wishlist_item.item.slug %}">
+                                <i>Remove</i>
+                            </a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">Your wishlist is empty</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a href="/shop" class="btn btn-primary float-right">Continue Shopping</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if object.total_amount %}
+                    <tr>
+                        <td colspan="4"><b>Order Total</b></td>
+                        <td><b>${{ object.total_amount }}</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a href='/checkout' class="btn btn-warning float-right ml-2">Proceed To
+                                Checkout</a>
+                            <a href='/shop' class="btn btn-primary float-right">Continue Shopping</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</body>
+{% endblock %}
