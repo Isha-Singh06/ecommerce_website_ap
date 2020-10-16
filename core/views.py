@@ -75,8 +75,12 @@ def cart(request):
 
 def product_details_V(request, slug):
     item = get_object_or_404(Item, slug=slug)
+
+    similar = Item.objects.filter(Q(category__icontains=item.category)).exclude(name = item.name)[:4]
+
     content = {
-        'object': item
+        'object': item,
+        'similar' : similar
     }
 
     if request.method == 'POST' and request.user.is_authenticated:
