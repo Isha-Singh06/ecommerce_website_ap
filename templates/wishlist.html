@@ -47,7 +47,7 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td><a href="{{wishlist_item.item.get_abs_url}}">{{ wishlist_item.item.name }}</a></td>
                         <td>{{ wishlist_item.item.cost }}</td>
-                        <td>{{ wishlist_item.item.average_Rating }}</td>
+                        <td>{{ wishlist_item.item.average_Rating|floatformat:2 }}</td>
                         <td><a style="color: red;" href="{% url 'core:remove-from-wishlist' wishlist_item.item.slug %}">
                                 <i>Remove</i>
                             </a></td>

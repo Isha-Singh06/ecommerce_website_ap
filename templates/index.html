@@ -89,7 +89,7 @@
                         <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
                             <input id="q" list="products" size="22" name="q" type="text"
-                                placeholder="Search for products">
+                                placeholder="Search for products...">
                             <datalist id="products">
                                 <option>Toys</option>
                                 <option>Home</option>
@@ -107,7 +107,7 @@
                         <form action="{% url 'core:search' %}" method="GET">
                             <span class="icon_search"></span>
                             <input id="q" list="products" size="22" name="q" type="text"
-                                placeholder="What are you looking for?">
+                                placeholder="Search for products...">
                             <datalist id="products">
                                 <option>Toys</option>
                                 <option>Home</option>
@@ -236,7 +236,7 @@
                         <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
                             <div class="{{item.label}}">{{item.get_label_display}}</div>
                             <ul class="product__hover">
-                                <li><a href="{% static 'img/product/product-1.jpg'%}" class="image-popup"><span
+                                <li><a href="/media/{{ item.image }}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
