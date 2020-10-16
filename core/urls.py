@@ -1,7 +1,7 @@
 # All the urls that our website will require
 
 from django.urls import path
-from .views import shop_V, Home_V, Wishlist_V, my_account, checkout, search, OrderSummary_V, filter_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, add_to_wishlist, remove_from_wishlist
+from .views import shop_V, Home_V, Wishlist_V, my_account, checkout, search, OrderSummary_V, filter_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, add_to_wishlist, remove_from_wishlist, move_to_wishlist
 
 app_name = 'core'
 
@@ -18,6 +18,7 @@ urlpatterns = [
          product_details_V, name='product_details'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
+    path('move-to-wishlist/<slug>/', move_to_wishlist, name='move-to-wishlist'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
     path('remove-from-wishlist/<slug>/',
          remove_from_wishlist, name='remove-from-wishlist'),

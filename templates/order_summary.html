@@ -28,7 +28,9 @@
     <div class="container">
 
         <div class="table-responsive text-nowrap">
+            <br>
             <h2>Order Summary</h2>
+            <br>
 
             <table class="table">
                 <thead>
@@ -38,6 +40,8 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Total Item Price</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +64,9 @@
                             ${{ order_item.total_item_price }}
                             {% endif %}
                         </td>
+                        <td><a style="color:blue;" href="{% url 'core:move-to-wishlist' order_item.item.slug %}">
+                                <i>Move to Wishlist</i>
+                            </a></td>
                         <td><a style="color: red;" href="{% url 'core:remove-from-cart' order_item.item.slug %}">
                                 <!-- <i>Remove</i> -->
                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -68,21 +75,21 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5">Your cart is empty</td>
+                        <td colspan="7">Your cart is empty</td>
                     </tr>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <a href="/shop" class="btn btn-primary float-right">Continue Shopping</a>
                         </td>
                     </tr>
                     {% endfor %}
                     {% if object.total_amount %}
                     <tr>
-                        <td colspan="4"><b>Order Total</b></td>
+                        <td colspan="6"><b>Order Total</b></td>
                         <td><b>${{ object.total_amount }}</b></td>
                     </tr>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="7">
                             <a href='/checkout' class="btn btn-warning float-right ml-2">Proceed To
                                 Checkout</a>
                             <a href='/shop' class="btn btn-primary float-right">Continue Shopping</a>

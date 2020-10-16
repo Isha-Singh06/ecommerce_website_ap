@@ -76,11 +76,12 @@ def cart(request):
 def product_details_V(request, slug):
     item = get_object_or_404(Item, slug=slug)
 
-    similar = Item.objects.filter(Q(category__icontains=item.category)).exclude(name = item.name)[:4]
+    similar = Item.objects.filter(
+        Q(category__icontains=item.category)).exclude(name=item.name)[:4]
 
     content = {
         'object': item,
-        'similar' : similar
+        'similar': similar
     }
 
     if request.method == 'POST' and request.user.is_authenticated:
@@ -263,6 +264,51 @@ def add_to_wishlist(request, slug):
             user=request.user, order_date=order_date)
         wishlist.items.add(wishlistItem)
         messages.info(request, "This item has been added to your wishlist")
+        return redirect("core:wishlist")
+
+
+@login_required
+def move_to_wishlist(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    order_q = Order.objects.filter(user=request.user, ordered=False)
+    # To check whether an order exists already
+    if order_q.exists():
+        order = order_q[0]
+        # To check if the item already exists in the order
+
+        orderItem = Order_Item.objects.filter(
+            item=item,
+            user=request.user,
+            ordered=False
+        )[0]
+        order.items.remove(orderItem)
+
+    wishlistItem, created = Wishlist_Item.objects.get_or_create(
+        item=item,
+        user=request.user,
+        wishlist_present=False
+    )
+    wishlist_q = Wishlist.objects.filter(
+        user=request.user, wishlist_present=False)
+    # To check whether a wishlist exists already
+    if wishlist_q.exists():
+        wishlist = wishlist_q[0]
+        # To check if the item already exists in the wishlist
+        if wishlist.items.filter(item__slug=item.slug).exists():
+            messages.info(
+                request, "The item already exists in your wishlist")
+            return redirect("core:wishlist")
+
+        else:
+            messages.info(request, "This item has been moved to your wishlist")
+            wishlist.items.add(wishlistItem)
+            return redirect("core:wishlist")
+    else:
+        order_date = timezone.now()
+        wishlist = Wishlist.objects.create(
+            user=request.user, order_date=order_date)
+        wishlist.items.add(wishlistItem)
+        messages.info(request, "This item has been moved to your wishlist")
         return redirect("core:wishlist")
 
 
