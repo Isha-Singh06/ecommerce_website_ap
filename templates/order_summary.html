@@ -47,9 +47,11 @@
                         <td><a href="{{order_item.item.get_abs_url}}">{{ order_item.item.name }}</a></td>
                         <td>{{ order_item.item.cost }}</td>
                         <td><a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i
-                                    class="fas fa-minus mr-2"></i></a>{{ order_item.quantity }}<a
-                                href="{% url 'core:add-to-cart' order_item.item.slug %}"><i
-                                    class="fas fa-plus ml-2"></i></a></td>
+                                    class="fa fa-minus" aria-hidden="true"
+                                    style="color: black; margin-right:5px ; font-size: 80%;"></i></a>{{ order_item.quantity }}<a
+                                href="{% url 'core:add-to-cart' order_item.item.slug %}"><i class="fa fa-plus"
+                                    aria-hidden="true" style="color: black; margin-left:5px ; font-size: 80%;"></i></a>
+                        </td>
                         <td>
                             {% if order_item.item.discounted %}
                             ${{ order_item.total_discount_item_price }}
@@ -59,7 +61,9 @@
                             {% endif %}
                         </td>
                         <td><a style="color: red;" href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                                <i>Remove</i>
+                                <!-- <i>Remove</i> -->
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+
                             </a></td>
                     </tr>
                     {% empty %}
