@@ -39,13 +39,16 @@
                         <th scope="col">Item</th>
                         <th scope="col">Price</th>
                         <th scope="col">Ratings</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for wishlist_item in object.items.all %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td><a href="{{wishlist_item.item.get_abs_url}}">{{ wishlist_item.item.name }}</a></td>
+                        <td><a href="{{wishlist_item.item.get_abs_url}}">{{ wishlist_item.item.name }}</a>
+                            <p> Interested People: {{ wishlist_item.item.wishlist_counter }} </p>
+                        </td>
                         <td>{{ wishlist_item.item.cost }}</td>
                         <td>{{ wishlist_item.item.average_Rating|floatformat:2 }}</td>
                         <td><a style="color: red;" href="{% url 'core:remove-from-wishlist' wishlist_item.item.slug %}">

@@ -28,6 +28,7 @@ class Item(models.Model):
     label = models.CharField(choices=label_choices, max_length=1)
     category = models.CharField(choices=category_choices, max_length=1)
     slug = models.SlugField()
+    wishlist_counter = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -139,12 +140,6 @@ class Wishlist_Item(models.Model):
     wishlist_present = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-
-    # def __str__(self):
-    #     return f"{self.quantity} of {self.item.name}"
-
-    # def total_item_price(self):
-    # return self.quantity * self.item.cost
 
     def __str__(self):
         return f"{self.item.name}"

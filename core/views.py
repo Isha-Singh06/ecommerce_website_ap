@@ -255,6 +255,8 @@ def add_to_wishlist(request, slug):
             return redirect("core:wishlist")
 
         else:
+            item.wishlist_counter = item.wishlist_counter + 1
+            item.save()
             messages.info(request, "This item has been added to your wishlist")
             wishlist.items.add(wishlistItem)
             return redirect("core:wishlist")
@@ -263,6 +265,8 @@ def add_to_wishlist(request, slug):
         wishlist = Wishlist.objects.create(
             user=request.user, order_date=order_date)
         wishlist.items.add(wishlistItem)
+        item.wishlist_counter = item.wishlist_counter + 1
+        item.save()
         messages.info(request, "This item has been added to your wishlist")
         return redirect("core:wishlist")
 
@@ -300,6 +304,8 @@ def move_to_wishlist(request, slug):
             return redirect("core:wishlist")
 
         else:
+            item.wishlist_counter = item.wishlist_counter + 1
+            item.save()
             messages.info(request, "This item has been moved to your wishlist")
             wishlist.items.add(wishlistItem)
             return redirect("core:wishlist")
@@ -308,6 +314,8 @@ def move_to_wishlist(request, slug):
         wishlist = Wishlist.objects.create(
             user=request.user, order_date=order_date)
         wishlist.items.add(wishlistItem)
+        item.wishlist_counter = item.wishlist_counter + 1
+        item.save()
         messages.info(request, "This item has been moved to your wishlist")
         return redirect("core:wishlist")
 
@@ -328,6 +336,8 @@ def remove_from_wishlist(request, slug):
                 wishlist_present=False
             )[0]
             wishlist.items.remove(wishlistItem)
+            item.wishlist_counter = item.wishlist_counter - 1
+            item.save()
             messages.info(
                 request, "This item has been removed from your wishlist")
             return redirect("core:wishlist")

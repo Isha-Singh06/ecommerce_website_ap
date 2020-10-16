@@ -71,6 +71,10 @@
                                     <span>Promotions:</span>
                                     <p>Free shipping</p>
                                 </li>
+                                <li>
+                                    <span>Interested People:</span>
+                                    <p>{{ object.wishlist_counter }}</p>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -155,63 +159,63 @@
 
     <!-- More like this/Recommendation Section Begins -->
     <div class="row">
-    <div class="col-lg-12 text-center">
-        <div class="related__title">
-            <h5>More Like This</h5>
+        <div class="col-lg-12 text-center">
+            <div class="related__title">
+                <h5>More Like This</h5>
+            </div>
         </div>
-    </div>
-    {% for item in similar %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
-                    <div class="product__item">
-                        {% if request.user.is_authenticated %}
-                        <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                            <div class="{{item.label}}">{{item.get_label_display}}</div>
-                            <ul class="product__hover">
-                                <li><a href="/media/{{ item.image }}" class="image-popup"><span
-                                            class="arrow_expand"></span></a></li>
-                                <li><a href="{{ item.add_to_wishlist_url}}"><span class="icon_heart_alt"></span></a>
-                                </li>
-                                <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                        {% else %}
-                        <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                            <div class="{{item.label}}">{{item.get_label_display}}</div>
-                            <ul class="product__hover">
-                                <li><a href="/media/{{ item.image }}" class="image-popup"><span
-                                            class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                <li>
-                                    <div class="alert alert-danger">
-                                        Please login to add to cart or wishlist.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                        <div class="product__item__text">
-                            <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
-                            <div class="rating">
-                                {%  for i in item.get_avg_length %}
-                                <i class="fa fa-star"></i>
-                                {% endfor %}
+        {% for item in similar %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mix {{item.category}}">
+            <div class="product__item">
+                {% if request.user.is_authenticated %}
+                <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
+                    <div class="{{item.label}}">{{item.get_label_display}}</div>
+                    <ul class="product__hover">
+                        <li><a href="/media/{{ item.image }}" class="image-popup"><span class="arrow_expand"></span></a>
+                        </li>
+                        <li><a href="{{ item.add_to_wishlist_url}}"><span class="icon_heart_alt"></span></a>
+                        </li>
+                        <li><a href="{{ item.add_to_cart_url}}"><span class="icon_bag_alt"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
+                    <div class="{{item.label}}">{{item.get_label_display}}</div>
+                    <ul class="product__hover">
+                        <li><a href="/media/{{ item.image }}" class="image-popup"><span class="arrow_expand"></span></a>
+                        </li>
+                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                        <li>
+                            <div class="alert alert-danger">
+                                Please login to add to cart or wishlist.
                             </div>
-                            <div class="product__price">$
-                                {% if item.discounted %}
-                                {{item.discounted}}
-                                {%else%}
-                                {{item.cost}}
-                                {%endif%}
-                            </div>
-                        </div>
-
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+                <div class="product__item__text">
+                    <h6><a href="{{item.get_abs_url}}">{{item.name}}</a></h6>
+                    <div class="rating">
+                        {%  for i in item.get_avg_length %}
+                        <i class="fa fa-star"></i>
+                        {% endfor %}
+                    </div>
+                    <div class="product__price">$
+                        {% if item.discounted %}
+                        {{item.discounted}}
+                        {%else%}
+                        {{item.cost}}
+                        {%endif%}
                     </div>
                 </div>
-                {% endfor %}
-</div>
-<!-- More like this/Recommendation Section Ends -->
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- More like this/Recommendation Section Ends -->
 
 </body>
 
