@@ -128,7 +128,7 @@ ol {
 	bottom: -4px;
 	height: 2px;
 	width: 70px;
-	background: #ca1515;
+	background: #c295d8;
 	content: "";
 }
 
@@ -141,6 +141,12 @@ ol {
 .spad {
 	padding-top: 100px;
 	padding-bottom: 100px;
+}
+
+.bg-custom{
+	/* background-color: #fcf6f0;
+	 */
+	 background: #fcf6f0;
 }
 
 .text-white h1,
@@ -156,6 +162,8 @@ ol {
 	color: #fff;
 }
 
+
+
 /* buttons */
 
 .primary-btn {
@@ -168,10 +176,22 @@ ol {
 	background: #ca1515;
 }
 
+.cart-btn{
+	background-color: #c295d8 ;
+}
+
+.cart-btn2{
+	background-color: #e4a3d4 ;
+}
+
+.btn-cust{
+	background: #c295d8;
+}
+
 .site-btn {
 	font-size: 14px;
 	color: #ffffff;
-	background: #ca1515;
+	background: #c295d8;
 	font-weight: 600;
 	border: none;
 	text-transform: uppercase;
@@ -317,10 +337,12 @@ ol {
 -----------------------*/
 
 .header {
-	background: #ffffff;
+	/* background: #fae3eb; */
+	background: #ffedf3;
 	-webkit-box-shadow: 0px 5px 10px rgba(91, 91, 91, 0.1);
 	box-shadow: 0px 5px 10px rgba(91, 91, 91, 0.1);
 }
+
 
 .header__logo {
 	padding: 26px 0;
@@ -412,7 +434,7 @@ ol {
 	bottom: 0;
 	width: 100%;
 	height: 2px;
-	background: #ca1515;
+	background: #c295d8;
 	content: "";
 	-webkit-transition: all, 0.5s;
 	-o-transition: all, 0.5s;
@@ -430,11 +452,12 @@ ol {
 .header__right__auth {
 	display: inline-block;
 	margin-right: 25px;
+	padding-bottom: 10px;
 }
 
 .header__right__auth a {
-	font-size: 12px;
-	color: #666666;
+	font-size: 15px;
+	color: black;
 	position: relative;
 	margin-right: 8px;
 }
@@ -452,7 +475,7 @@ ol {
 	right: -8px;
 	top: -2px;
 	content: "/";
-	font-size: 13px;
+	font-size: 16px;
 }
 
 .header__right__widget {
@@ -511,7 +534,7 @@ ol {
 
 .banner__text span {
 	font-size: 18px;
-	color: #ca1515;
+	color: #367f8a;
 	text-transform: uppercase;
 }
 
@@ -538,7 +561,7 @@ ol {
 	bottom: 0;
 	height: 2px;
 	width: 100%;
-	background: #ca1515;
+	background: #367f8a;
 	content: "";
 }
 
@@ -564,7 +587,7 @@ ol {
 }
 
 .banner__slider.owl-carousel .owl-dots button.active {
-	background: #ca1515;
+	background: #367f8a;
 }
 
 .banner__slider.owl-carousel .owl-dots button:last-child {
@@ -753,6 +776,7 @@ ol {
 .services {
 	padding-top: 80px;
 	padding-bottom: 50px;
+	background-color: #fcf6f0;;
 }
 
 .services__item {
@@ -762,11 +786,11 @@ ol {
 }
 
 .services__item i {
-	font-size: 36px;
-	color: #ca1515;
+	font-size: 46px;
+	color: #367f8a;
 	position: absolute;
 	left: 0;
-	top: 4px;
+	top: 0;
 }
 
 .services__item h6 {
@@ -850,6 +874,7 @@ ol {
 
 .footer {
 	padding-top: 55px;
+	background-color: #fae3eb;
 }
 
 .footer__about {
@@ -966,7 +991,7 @@ ol {
 }
 
 .footer__copyright__text {
-	border-top: 1px solid #e1e1e1;
+	border-top: 1px solid;
 	padding: 18px 0 25px;
 	text-align: center;
 	margin-top: 35px;
@@ -1065,13 +1090,16 @@ ol {
 
 .categories__text h1 {
 	font-family: "Cookie", cursive;
-	color: #111111;
+	color: #635c5a;
 	margin-bottom: 5px;
 }
 
-.categories__text h4 {
-	color: #111111;
+.categories__text h2 {
+	font-family: "Cookie", cursive;
+	color: #635c5a;
 	font-weight: 700;
+	justify-content: center;
+
 }
 
 .categories__text p {
@@ -1132,7 +1160,7 @@ ol {
 	bottom: -4px;
 	height: 2px;
 	width: 100%;
-	background: #ca1515;
+	background: #c295d8;
 	content: "";
 	opacity: 0;
 }
@@ -1232,7 +1260,7 @@ ol {
 }
 
 .product__hover li:hover a {
-	background: #ca1515;
+	background: #c295d8;
 }
 
 .product__hover li:hover a span {
@@ -1607,6 +1635,10 @@ ol {
   Product Details
 -----------------------*/
 
+.product{
+	background-color: #fcf6f0;
+}
+
 .product-details {
 	padding-top: 70px;
 	padding-bottom: 50px;
@@ -1722,7 +1754,7 @@ ol {
 .product__details__price {
 	font-size: 30px;
 	font-weight: 600;
-	color: #ca1515;
+	color: #c295d8;
 	margin-bottom: 30px;
 }
 
@@ -1788,7 +1820,7 @@ ol {
 	display: inline-block;
 	font-size: 14px;
 	color: #ffffff;
-	background: #ca1515;
+	background: #c295d8;
 	font-weight: 600;
 	text-transform: uppercase;
 	padding: 14px 30px 15px;
@@ -1796,6 +1828,10 @@ ol {
 	float: left;
 	margin-right: 10px;
 	margin-bottom: 10px;
+}
+
+.product__details__button .cart-btn2{
+	background: #e4a3d4;
 }
 
 .product__details__button ul {
@@ -3142,6 +3178,10 @@ ol {
 
 .contact__map iframe {
 	width: 100%;
+}
+
+.sign-in{
+	align-items: center;
 }
 
 /*--------------------------------- Responsive Media Quaries -----------------------------*/

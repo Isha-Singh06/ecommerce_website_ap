@@ -8,9 +8,9 @@
 
 {% block content  %}
 
-<body>
+<body class="bg-custom">
     <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
+    <div class="breadcrumb-option ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td colspan="6">
-                            <a href="/shop" class="btn btn-primary float-right">Continue Shopping</a>
+                            <a href="/shop" class="btn cart-btn float-right">Continue Shopping</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -90,9 +90,9 @@
                     </tr>
                     <tr>
                         <td colspan="7">
-                            <a href='/checkout' class="btn btn-warning float-right ml-2">Proceed To
+                            <a href='/checkout' class="btn cart-btn2 float-right ml-2">Proceed To
                                 Checkout</a>
-                            <a href='/shop' class="btn btn-primary float-right">Continue Shopping</a>
+                            <a href='/shop' class=" cart-btn btn  float-right">Continue Shopping</a>
                         </td>
                     </tr>
                     {% endif %}

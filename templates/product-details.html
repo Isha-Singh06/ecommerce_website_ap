@@ -7,20 +7,20 @@
 
 {% block content  %}
 
-<body>
+<body class="bg-custom">
     <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="/index"><i class="fa fa-home"></i> Home</a>
-                        <a href="/filter/?q={{object.get_category_display}}">{{object.get_category_display}} </a>
-                        <span>{{object.name}}</span>
-                    </div>
+    <div class="breadcrumb-option "">
+        <div class=" container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/index"><i class="fa fa-home"></i> Home</a>
+                    <a href="/filter/?q={{object.get_category_display}}">{{object.get_category_display}} </a>
+                    <span>{{object.name}}</span>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- Breadcrumb End -->
 
@@ -53,14 +53,14 @@
                         <div class="product__details__button">
                             <a href="{{ object.add_to_cart_url}}" class="cart-btn"><span class="icon_bag_alt"></span>
                                 Add to cart</a>
-                            <a href="{{ object.remove_from_cart_url}}" class="cart-btn"><span
+                            <a href="{{ object.remove_from_cart_url}}" class="cart-btn cart-btn2"><span
                                     class="icon_bag_alt"></span> Remove from cart</a>
 
                             <ul>
                                 <a href="{{ object.add_to_wishlist_url}}" class="cart-btn"><span
                                         class="icon_heart_alt"></span>
                                     Add to wishlist</a>
-                                <a href="{{ object.remove_from_wishlist_url}}" class="cart-btn"><span
+                                <a href="{{ object.remove_from_wishlist_url}}" class="cart-btn cart-btn2"><span
                                         class="icon_heart_alt"></span> Remove from wishlist</a>
                                 <!-- <li><a href="#"><span class="icon_heart_alt"></span></a></li> -->
                             </ul>
