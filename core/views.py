@@ -177,6 +177,55 @@ def add_to_cart(request, slug):
 
 
 @login_required
+def move_to_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+
+    # removing from wishlist
+    wishlist_q = Wishlist.objects.filter(
+        user=request.user, wishlist_present=False)
+    # To check whether a wishlist exists already
+    if wishlist_q.exists():
+        wishlist = wishlist_q[0]
+        # To check if the item already exists in the wishlist
+
+        wishlistItem = Wishlist_Item.objects.filter(
+            item=item,
+            user=request.user,
+            wishlist_present=False
+        )[0]
+        wishlist.items.remove(wishlistItem)
+        item.wishlist_counter = item.wishlist_counter - 1
+        item.save()
+
+    # adding to cart
+    orderItem, created = Order_Item.objects.get_or_create(
+        item=item,
+        user=request.user,
+        ordered=False
+    )
+    order_q = Order.objects.filter(user=request.user, ordered=False)
+    # To check whether an order exists already
+    if order_q.exists():
+        order = order_q[0]
+        # To check if the item already exists in the order
+        if order.items.filter(item__slug=item.slug).exists():
+            messages.info(
+                request, "The item is already in your cart")
+            return redirect("core:order-summary")
+
+        else:
+            messages.info(request, "This item has been moved to your cart")
+            order.items.add(orderItem)
+            return redirect("core:order-summary")
+    else:
+        order_date = timezone.now()
+        order = Order.objects.create(user=request.user, order_date=order_date)
+        order.items.add(orderItem)
+        messages.info(request, "This item has been moved to your cart")
+        return redirect("core:order-summary")
+
+
+@login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
     order_q = Order.objects.filter(user=request.user, ordered=False)

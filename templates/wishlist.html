@@ -40,6 +40,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Ratings</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,8 +52,12 @@
                         </td>
                         <td>{{ wishlist_item.item.cost }}</td>
                         <td>{{ wishlist_item.item.average_Rating|floatformat:2 }}</td>
+                        <td><a style="color: blue;" href="{% url 'core:move-to-cart' wishlist_item.item.slug %}">
+                                <i>Move to Cart</i>
+                            </a></td>
                         <td><a style="color: red;" href="{% url 'core:remove-from-wishlist' wishlist_item.item.slug %}">
-                                <i>Remove</i>
+                                <!-- <i>Remove</i> -->
+                                <i class="fa fa-trash" aria-hidden="true"></i>
                             </a></td>
                     </tr>
                     {% empty %}
@@ -60,18 +65,18 @@
                         <td colspan="5">Your wishlist is empty</td>
                     </tr>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <a href="/shop" class="btn btn-primary float-right">Continue Shopping</a>
                         </td>
                     </tr>
                     {% endfor %}
                     {% if object.total_amount %}
                     <tr>
-                        <td colspan="4"><b>Order Total</b></td>
+                        <td colspan="5"><b>Order Total</b></td>
                         <td><b>${{ object.total_amount }}</b></td>
                     </tr>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <a href='/shop' class="btn btn-primary float-right">Continue Shopping</a>
                         </td>
                     </tr>
