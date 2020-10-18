@@ -181,7 +181,7 @@ ol {
 }
 
 .cart-btn2{
-	background-color: #e4a3d4 ;
+	background-color: #e384cb ;
 }
 
 .btn-cust{
@@ -646,7 +646,7 @@ ol {
 	margin-right: 0;
 }
 
-.trend__item__text .product__price {
+.trend__item__text .product__cece {
 	color: #111111;
 	font-weight: 600;
 }
@@ -1754,13 +1754,13 @@ ol {
 .product__details__price {
 	font-size: 30px;
 	font-weight: 600;
-	color: #c295d8;
+	color: #b870db;
 	margin-bottom: 30px;
 }
 
 .product__details__price span {
 	font-size: 18px;
-	color: #b1b0b0;
+	color: #969696;
 	text-decoration: line-through;
 	margin-left: 10px;
 	display: inline-block;
@@ -1820,7 +1820,7 @@ ol {
 	display: inline-block;
 	font-size: 14px;
 	color: #ffffff;
-	background: #c295d8;
+	background: #bc87d6;
 	font-weight: 600;
 	text-transform: uppercase;
 	padding: 14px 30px 15px;
