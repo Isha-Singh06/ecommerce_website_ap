@@ -1091,13 +1091,13 @@ ol {
 
 .categories__text h1 {
 	font-family: "Cookie", cursive;
-	color: #3a3147;
+	color: #3a254f;
 	margin-bottom: 5px;
 }
 
 .categories__text h2 {
 	font-family: "Cookie", cursive;
-	color: #3a3147;
+	color: #3a254f;
 	font-weight: 700;
 	justify-content: center;
 
@@ -3214,8 +3214,9 @@ ol {
 	.header__menu ul li {
 		margin-right: 20px;
 	}
-	.header__right__auth {
+	.header__right__auth a {
 		margin-right: 5px;
+
 	}
 	.sidebar__filter a {
 		padding: 5px 15px 5px 15px;
