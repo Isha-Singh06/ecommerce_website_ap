@@ -883,6 +883,7 @@ ol {
 
 .footer__about p {
 	margin-bottom: 20px;
+	color: #8d65a1;
 }
 
 .footer__logo {
@@ -916,7 +917,7 @@ ol {
 
 .footer__widget ul li a {
 	font-size: 14px;
-	color: #666666;
+	color: #8d65a1;
 	line-height: 30px;
 }
 
@@ -1090,13 +1091,13 @@ ol {
 
 .categories__text h1 {
 	font-family: "Cookie", cursive;
-	color: #635c5a;
+	color: #3a3147;
 	margin-bottom: 5px;
 }
 
 .categories__text h2 {
 	font-family: "Cookie", cursive;
-	color: #635c5a;
+	color: #3a3147;
 	font-weight: 700;
 	justify-content: center;
 
