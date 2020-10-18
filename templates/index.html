@@ -78,8 +78,6 @@
                                     <div class="tip"> {{request.user | wishlist_count }} </div>
                                 </a></li>
                             <li>
-                                <!-- Commented this in case we need to look at the shop-cart page later -->
-                                <!-- <a href="/shop-cart"> -->
                                 <a href="{% url 'core:order-summary' %}">
                                     <span class="icon_bag_alt"></span>
                                     <div class="tip"> {{request.user | cart_count }} </div>
@@ -225,7 +223,7 @@
                     <div class="product__item">
                         {% if request.user.is_authenticated %}
                         <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                            <div class="{{item.label}}">{{item.get_label_display}}</div>
+                            <div class="label">{{item.get_label_display}}</div>
                             <ul class="product__hover">
                                 <li><a href="/media/{{ item.image }}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li>
@@ -237,7 +235,7 @@
                         </div>
                         {% else %}
                         <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                            <div class="{{item.label}}">{{item.get_label_display}}</div>
+                            <div class="label">{{item.get_label_display}}</div>
                             <ul class="product__hover">
                                 <li><a href="/media/{{ item.image }}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li>

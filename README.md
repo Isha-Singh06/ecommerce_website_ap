@@ -17,3 +17,5 @@ In the process of making this project, we included the following templates:
 1. Bootstrap Template: https://colorlib.com/wp/template/ashion/
 2. Skeletal framework : https://github.com/justdjango/django_project_boilerplate 
 3. Authentication template only : https://github.com/pennersr/django-allauth
+
+All product images in this project have been taken from https://unsplash.com/ .

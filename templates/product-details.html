@@ -34,6 +34,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
+                    <div class="product__details__label">{{object.get_label_display}}</div>
                     <div class="product__details__text">
                         <h3>{{object.name}} <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
                         <div class="rating">
@@ -169,7 +170,7 @@
             <div class="product__item">
                 {% if request.user.is_authenticated %}
                 <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                    <div class="{{item.label}}">{{item.get_label_display}}</div>
+                    <div class="label">{{item.get_label_display}}</div>
                     <ul class="product__hover">
                         <li><a href="/media/{{ item.image }}" class="image-popup"><span class="arrow_expand"></span></a>
                         </li>
@@ -181,7 +182,7 @@
                 </div>
                 {% else %}
                 <div class="product__item__pic set-bg" data-setbg="/media/{{ item.image }}">
-                    <div class="{{item.label}}">{{item.get_label_display}}</div>
+                    <div class="label">{{item.get_label_display}}</div>
                     <ul class="product__hover">
                         <li><a href="/media/{{ item.image }}" class="image-popup"><span class="arrow_expand"></span></a>
                         </li>
