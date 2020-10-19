@@ -28,12 +28,15 @@
             <br>
             Your username is : {{request.user.username}}
             <br>
-            Would you like to change your existing password?
-            If yes, <a href="/accounts/password/change">click here</a>.
-
+            <br>
+            <div class="product__details__button">
+            <a href="" class="cart-btn">My Orders</a>
+            <a href="/accounts/password/change" class="cart-btn cart-btn2">Change Password</a>
+            </div>
             {% else %}
             Hello, please login first
             {% endif %}
+
         </div>
     </section>
 </body>
