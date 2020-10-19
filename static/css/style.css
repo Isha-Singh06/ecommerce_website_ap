@@ -2439,7 +2439,6 @@ ol {
 
 .checkout__form .checkout__form__checkbox label input {
 	position: absolute;
-	visibility: hidden;
 }
 
 .checkout__form .checkout__form__checkbox label input:checked~.checkmark {
@@ -2608,7 +2607,7 @@ ol {
 	opacity: 0;
 	content: "";
 }
-/* Search box */
+/* Search box or any other form input*/
 input[type=text] {
   width: 80%;
   padding: 6px 6px;
@@ -2617,7 +2616,7 @@ input[type=text] {
   border: 2px solid #c295d8;
   border-radius: 4px;
   background-color: white;
-  color: white;
+  color: black;
 }
 
 /*---------------------

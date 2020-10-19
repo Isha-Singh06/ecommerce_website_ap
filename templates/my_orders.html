@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+<head>
+ <title>{% block head_title %}PoshPixie | My Account{% endblock %}</title>
+</head>
+{% block content  %}
+
+<body class="bg-custom">
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <span>My Orders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    <br>
+
+    <section class="shop spad">
+        <div class="container">
+            <div class="product__details__button">
+            <a href="/my_account" class="cart-btn">Go Back to 'My Account'</a>
+            </div>
+            {% if request.user.is_authenticated %}
+            Hi {{request.user.username}} !
+            <br>
+            Items you have ordered in the past:
+            <br>
+            <ul>
+            {% for item in order%}
+                <li> <a href="{{item.item.get_abs_url}}">{{item.item.name}}</a></h6>
+            <br>
+            {% endfor %}
+            </ul>
+            {% else %}
+            Hello, please login first
+            {% endif %}
+
+        </div>
+    </section>
+</body>
+{% endblock content %}

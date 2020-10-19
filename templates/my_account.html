@@ -24,13 +24,13 @@
     <section class="shop spad">
         <div class="container">
             {% if request.user.is_authenticated %}
-            Hi {{request.user.username}}
+            Hi {{request.user.username}}!
             <br>
             Your username is : {{request.user.username}}
             <br>
             <br>
             <div class="product__details__button">
-            <a href="" class="cart-btn">My Orders</a>
+            <a href="/my_orders" class="cart-btn">My Orders</a>
             <a href="/accounts/password/change" class="cart-btn cart-btn2">Change Password</a>
             </div>
             {% else %}

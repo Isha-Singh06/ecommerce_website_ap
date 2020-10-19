@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
-from .models import Item, Order_Item, Order, Reviews, Wishlist, Wishlist_Item
+from .models import Item, Order_Item, Order, Reviews, Wishlist, Wishlist_Item, Address
+from .forms import checkout_form
 from django.utils import timezone
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -48,19 +49,74 @@ class Wishlist_V(LoginRequiredMixin, View):
 
 class checkout(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
+
+        form = checkout_form()
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
-                'object': order
+                'object': order,
+                'form': form
             }
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
+    def post(self, *args, **kwargs):
+        form = checkout_form(self.request.POST or None)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                house_address = form.cleaned_data.get('house_address')
+                town = form.cleaned_data.get('town')
+                country = form.cleaned_data.get('country')
+                zip = form.cleaned_data.get('zip')
+                #save_as_Default = form.cleaned_data.get('save_as_default')
+                address = Address(
+                    user=self.request.user,
+                    house_address=house_address,
+                    town=town,
+                    country=country,
+                    zip=zip
+
+                )
+                address.save()
+                order.address = address
+                order.save()
+                messages.success(self.request, "Almost Done")
+                return redirect('core:payment')
+
+            messages.info(self.request, "Failed Checkout")
+            return redirect('core:checkout')
+
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order")
+            return redirect("core:order_summary")
+
+
+class payment_View(View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': order
+            }
+            return render(self.request, "payment.html", context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order")
+            return redirect("/")
+
+    def post(self, *args, **kwargs):
+        order = Order.objects.get(user = self.request.user, ordered = False)
+        order.ordered = True
+        order.order_items_ordered()
+        order.save()
+        messages.success(self.request, "Your order was successful.")
+        return redirect("/")
+
+
+
 # Page to view all products
-
-
 class shop_V(ListView):
     model = Item
     paginate_by = 27
@@ -99,10 +155,16 @@ def contact_us(request):
     return render(request, "contact.html")
 
 # User's 'My Account' page
-
-
 def my_account(request):
     return render(request, "my_account.html")
+
+def my_orders(request):
+        order = Order_Item.objects.filter(user=request.user,ordered=True)
+        content = {
+            'order':order
+         }
+        return render(request, "my_orders.html", content)
+
 
 # Search for products (Autocomplete implementation ✔ )
 

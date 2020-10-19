@@ -100,6 +100,8 @@ class Order_Item(models.Model):
         if self.item.discounted:
             return self.total_discount_item_price()
         return self.total_item_price()
+    def ordered_true(self):
+        self.ordered = True
 
 # The items present in the cart, order
 
@@ -111,6 +113,7 @@ class Order(models.Model):
     initial_date = models.DateTimeField(auto_now_add=True)
     order_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    address = models.ForeignKey('Address', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -120,6 +123,12 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.final_price()
         return total
+
+    def order_items_ordered(self):
+        for item in self.items.all():
+            item.ordered = True
+            item.save()
+
 
 
 class Reviews(models.Model):
@@ -165,3 +174,14 @@ class Wishlist(models.Model):
         for wishlist_item in self.items.all():
             total += wishlist_item.item_price()
         return total
+
+class Address(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    house_address = models.CharField(max_length=150)
+    town = models.CharField(max_length=150)
+    country = models.CharField(max_length=150)
+    zip = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user.username
