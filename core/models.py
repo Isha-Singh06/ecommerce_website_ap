@@ -16,8 +16,6 @@ category_choices = {
 }
 
 # The products
-
-
 class Item(models.Model):
     name = models.CharField(max_length=50)
     cost = models.FloatField()
@@ -104,8 +102,6 @@ class Order_Item(models.Model):
         self.ordered = True
 
 # The items present in the cart, order
-
-
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
@@ -141,8 +137,6 @@ class Reviews(models.Model):
     content = models.TextField(blank=True, null=True)
 
 # Item in the wishlist
-
-
 class Wishlist_Item(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
