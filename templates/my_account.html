@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+
 <head>
- <title>{% block head_title %}PoshPixie | My Account{% endblock %}</title>
+    <title>{% block head_title %}PoshPixie | My Account{% endblock %}</title>
 </head>
 {% block content  %}
 
@@ -30,21 +31,21 @@
             <br>
             <br>
             <div class="product__details__button">
-             Would you like to view the products you've ordered?
-                <br>
-            <a href="/my_orders" class="cart-btn">My Orders</a>
+                Would you like to view the products you've ordered?
+                <br><br>
+                <a href="/my_orders" class="cart-btn">My Orders</a>
                 <br>
                 <br>
                 <hr>
                 Would you like to change your password?
-                <br>
-            <a href="/accounts/password/change" class="cart-btn cart-btn2">Change Password</a>
+                <br><br>
+                <a href="/accounts/password/change" class="cart-btn cart-btn2">Change Password</a>
                 <br>
                 <br>
                 <hr>
                 Would you like to set a new default delivery address or change the existing one?
-                <br>
-            <a href="/change_address" class="cart-btn">Set Address</a>
+                <br><br>
+                <a href="/change_address" class="cart-btn">Set Address</a>
             </div>
             {% else %}
             Hello, please login first
