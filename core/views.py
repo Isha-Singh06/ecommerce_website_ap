@@ -46,6 +46,13 @@ class Wishlist_V(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active wishlist")
             return redirect("/")
 
+def is_valid_form(values):
+    valid = True
+    for field in values:
+        if field == '':
+            valid = False
+    return valid  
+
 
 class checkout(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -57,6 +64,15 @@ class checkout(LoginRequiredMixin, View):
                 'object': order,
                 'form': form
             }
+
+            address_qs = Address.objects.filter(
+                user=self.request.user, 
+                default=True 
+            )
+            if address_qs.exists():
+                context.update({ 'default_address': address_qs[0]})
+
+
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
@@ -67,22 +83,56 @@ class checkout(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
-                house_address = form.cleaned_data.get('house_address')
-                town = form.cleaned_data.get('town')
-                country = form.cleaned_data.get('country')
-                zip = form.cleaned_data.get('zip')
-                #save_as_Default = form.cleaned_data.get('save_as_default')
-                address = Address(
-                    user=self.request.user,
-                    house_address=house_address,
-                    town=town,
-                    country=country,
-                    zip=zip
 
-                )
-                address.save()
-                order.address = address
-                order.save()
+                use_default_address = form.cleaned_data.get('use_default_address')
+                if use_default_address:
+                    print("Using the default address")
+                    addresses_qs= Address.objects.filter(
+                        user=self.request.user, 
+                        default=True
+                    )
+                    if addresses_qs.exists():
+                        house_address = addresses_qs[0]
+                        order.address = house_address 
+                        order.save()
+                    else:
+                        messages.info(self.request, "No default address avaiable")
+                        return redirect('core:checkout')
+                else:
+                    print("User is entering a new address")                 
+                    house_address = form.cleaned_data.get('house_address')
+                    town = form.cleaned_data.get('town')
+                    country = form.cleaned_data.get('country')
+                    zip = form.cleaned_data.get('zip')
+                    save_as_Default = form.cleaned_data.get('save_as_default')
+
+
+                    if is_valid_form([house_address, town, country, zip ]):
+                                                
+                        address = Address(
+                            user=self.request.user,
+                            house_address=house_address,
+                            town=town,
+                            country=country,
+                            zip=zip
+
+                        )
+                        address.save()
+                        order.address = address
+                        order.save()
+
+                        set_as_default=form.cleaned_data.get('set_as_default')
+                        if set_as_default:
+                            address.default=True
+                            address.save()
+                            # address.default_true()
+
+
+                    else: 
+                        messages.info(self.request, "Please fill in the required fields")
+                
+
+
                 messages.success(self.request, "Almost Done")
                 return redirect('core:payment')
 

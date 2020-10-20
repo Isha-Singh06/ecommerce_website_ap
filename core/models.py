@@ -176,6 +176,16 @@ class Address(models.Model):
     town = models.CharField(max_length=150)
     country = models.CharField(max_length=150)
     zip = models.CharField(max_length=20)
+    default = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.user.username
+
+    def default_true(self):
+        self.default= True 
+        self.save()
+
+
+    class Meta:
+        verbose_name_plural = 'Addresses'
