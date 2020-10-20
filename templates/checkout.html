@@ -36,19 +36,15 @@
                              <form method="POST">
                                  {% csrf_token %}
                                 {{ form|crispy }}
-                                {% if default_address %}
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="save_as_Default">
-                                    <label class="custom-control-input" for="save_as_Default">save as Default
-                                        {{default_address.house_address|truncatechars:10}}</label>
-                                </div>
+
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" name="use_default_address" >
                                     <label class="custom-control-input" for="use_default_address">Use default address {{default_address.house_address|truncatechars:10}}</label>
                                 </div>
-                                {% endif %}
                                  <button class="btn btn-primary btn-lg" type="submit">Proceed</button>
                              </form>
+                                 <hr>
+                                 If you already have a default address, you can update it by saving a new default address here.
                             </div>
 
                         </div>

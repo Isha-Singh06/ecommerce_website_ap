@@ -1,7 +1,7 @@
 # All the urls that our website will require
 
 from django.urls import path
-from .views import shop_V, Home_V, Wishlist_V, my_account,my_orders, checkout,payment_View, search, OrderSummary_V, filter_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, add_to_wishlist, remove_from_wishlist, move_to_wishlist, move_to_cart
+from .views import shop_V, Home_V, Wishlist_V, my_account,my_orders, change_address, checkout,payment_View, search, OrderSummary_V, filter_V, product_details_V, remove_single_item_from_cart, contact_us, add_to_cart, remove_from_cart, add_to_wishlist, remove_from_wishlist, move_to_wishlist, move_to_cart
 
 app_name = 'core'
 
@@ -28,5 +28,6 @@ urlpatterns = [
          name='remove-single-item-from-cart'),
     path('contact', contact_us, name='contact_us'),
     path('my_account', my_account, name='my_account'),
-    path('my_orders', my_orders, name='my orders')
+    path('my_orders', my_orders, name='my orders'),
+    path('change_address', change_address, name='change_address')
 ]

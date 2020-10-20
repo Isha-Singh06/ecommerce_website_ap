@@ -183,9 +183,7 @@ class Address(models.Model):
         return self.user.username
 
     def default_true(self):
-        self.default= True 
-        self.save()
-
+        self.default= True
 
     class Meta:
         verbose_name_plural = 'Addresses'

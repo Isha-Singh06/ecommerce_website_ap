@@ -10,16 +10,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 # Home page
-
-
 class Home_V(ListView):
     model = Item
     paginate_by = 12
     template_name = 'index.html'
 
 # Shopping cart
-
-
 class OrderSummary_V(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -32,7 +28,7 @@ class OrderSummary_V(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("/")
 
-
+# Wishlist
 class Wishlist_V(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -53,7 +49,7 @@ def is_valid_form(values):
             valid = False
     return valid  
 
-
+# Checkout page
 class checkout(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
 
@@ -96,19 +92,17 @@ class checkout(LoginRequiredMixin, View):
                         order.address = house_address 
                         order.save()
                     else:
-                        messages.info(self.request, "No default address avaiable")
+                        messages.info(self.request, "No default address available")
                         return redirect('core:checkout')
                 else:
-                    print("User is entering a new address")                 
                     house_address = form.cleaned_data.get('house_address')
                     town = form.cleaned_data.get('town')
                     country = form.cleaned_data.get('country')
                     zip = form.cleaned_data.get('zip')
-                    save_as_Default = form.cleaned_data.get('save_as_default')
+                    save_as_Default = form.cleaned_data.get('save_as_Default')
 
 
                     if is_valid_form([house_address, town, country, zip ]):
-                                                
                         address = Address(
                             user=self.request.user,
                             house_address=house_address,
@@ -121,13 +115,19 @@ class checkout(LoginRequiredMixin, View):
                         order.address = address
                         order.save()
 
-                        set_as_default=form.cleaned_data.get('set_as_default')
-                        if set_as_default:
+                        save_as_Default=form.cleaned_data.get('save_as_Default')
+                        if save_as_Default:
+                            addresses_qs = Address.objects.filter(
+                                user=self.request.user,
+                                default=True
+                            )
+                            if addresses_qs.exists():
+                                for add in addresses_qs:
+                                    add.default = False
+                                    add.save()
                             address.default=True
                             address.save()
                             # address.default_true()
-
-
                     else: 
                         messages.info(self.request, "Please fill in the required fields")
                 
@@ -143,7 +143,7 @@ class checkout(LoginRequiredMixin, View):
             messages.error(self.request, "You do not have an active order")
             return redirect("core:order_summary")
 
-
+# Payment Page
 class payment_View(View):
     def get(self, *args, **kwargs):
         try:
@@ -171,14 +171,9 @@ class shop_V(ListView):
     model = Item
     paginate_by = 27
     template_name = 'shop.html'
-
-
-def cart(request):
-    return render(request, "shop-cart.html")
-
 # Page opened by clicking on an item, details displayed
 
-
+# The product detail page
 def product_details_V(request, slug):
     item = get_object_or_404(Item, slug=slug)
 
@@ -208,6 +203,7 @@ def contact_us(request):
 def my_account(request):
     return render(request, "my_account.html")
 
+# List of ordered items displayed
 def my_orders(request):
         order = Order_Item.objects.filter(user=request.user,ordered=True)
         content = {
@@ -215,10 +211,36 @@ def my_orders(request):
          }
         return render(request, "my_orders.html", content)
 
+# User enabled to change default address
+def change_address(request):
+    address_qs = Address.objects.filter(user=request.user,
+                                        default=True)
+    if request.method == 'POST' and request.user.is_authenticated:
+        if address_qs.exists():
+            for add in address_qs:
+                add.default = False
+                add.save()
+        house_address = request.POST.get('house_address')
+        town = request.POST.get('Town')
+        country = request.POST.get('Country')
+        zip = request.POST.get('Zip')
+        address = Address.objects.create(user=request.user, house_address=house_address, town=town, country=country,
+                                         zip=zip, default=True)
+
+        messages.success(request, "Your change was successful.")
+        return redirect("/")
+
+    if address_qs.exists():
+        address_d = address_qs[0]
+        content = {
+            'address':address_d
+        }
+        return render(request, 'change_address.html', content)
+    else:
+        return render(request, 'change_address.html')
+
 
 # Search for products (Autocomplete implementation ✔ )
-
-
 def search(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -240,8 +262,6 @@ def search(request):
         return render(request, 'search.html')
 
 # Filters
-
-
 class filter_V(ListView):
     model = Item
     paginate_by = 27

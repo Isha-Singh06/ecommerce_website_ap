@@ -7,4 +7,6 @@ class checkout_form(forms.Form):
     zip = forms.CharField(required=False)
     save_as_Default = forms.BooleanField(required=False)
     use_default_address = forms.BooleanField(required=False)
+
+
     
