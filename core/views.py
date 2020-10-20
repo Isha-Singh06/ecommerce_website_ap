@@ -246,7 +246,7 @@ def search(request):
         query = request.GET.get('q')
 
         if query is not None:
-            lookups = Q(name__icontains=query) | Q(keywords__icontains=query)
+            lookups = Q(name__icontains=query) | Q(keywords__icontains=query) | Q(category__icontains=query) | Q(description__icontains=query)
 
             results = Item.objects.filter(lookups).distinct()
 
