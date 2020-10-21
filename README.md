@@ -13,6 +13,7 @@ Steps:
 4. Open our website on 'http://localhost:8000/' (Required for proper functioning)  
 5. We have created a dummy user, with username:user and password:user1234. However, you can create a new account as well.
 
+# 
 
 In the process of making this project, we included the following templates:
 
@@ -29,6 +30,13 @@ While the bootstrap template was taken from the above mentioned source, the logo
 While making this website, we referred to the following resources to understand and/or implement certain required functionalities:
 
 https://www.youtube.com/watch?v=YZvRrldjf1Y
+
 https://www.youtube.com/watch?v=OCdaM4iuSz4
+
 https://www.youtube.com/watch?v=Y5vvGQyHtpM
-https://learndjango.com/tutorials/django-search-tutorial    
+
+https://learndjango.com/tutorials/django-search-tutorial   
+
+#
+
+The user can login via an Ashoka Google account. However, since we have only deployed our website on localhost, logging in via Facebook will work only for the developer account, as per the Facebook OAuth policy. 
