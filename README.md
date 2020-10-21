@@ -38,5 +38,3 @@ https://www.youtube.com/watch?v=Y5vvGQyHtpM
 https://learndjango.com/tutorials/django-search-tutorial   
 
 #
-
-The user can login via an Ashoka Google account. However, since we have only deployed our website on localhost, logging in via Facebook will work only for the developer account, as per the Facebook OAuth policy. 
